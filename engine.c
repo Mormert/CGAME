@@ -33,7 +33,6 @@ void update_window_and_projection(GLFWwindow* window){
     width *= gEngine.cameraZoom;
     height *= gEngine.cameraZoom;
 
-    printf("%d ", width);
     mat4x4_ortho(proj, -width / 2.f, width / 2.f, - height/2.f, height/2.f, 2.f, -2.f);
     render_set_projection(&proj);
 }
