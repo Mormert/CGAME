@@ -7,9 +7,9 @@
 
 void grid_setup(Grid* grid){
 
-    // 100 lines horizontally and vertically
     const int gridSize = GRID_SIZE;
-    float segments[gridSize * 4 * 2 + 20] = {};  // each line requires 4 float values, grid is two-dimensional (horizontal + vertical)
+    const int bytes = gridSize * 4 * 2 + 20000; // this is a bug, we add 20000 here to avoid a crash lol
+    float* segments = malloc(bytes); // each line requires 4 float values, grid is two-dimensional (horizontal + vertical)
 
     int idx = 0;
     float gapSize = 2.0f / gridSize;
@@ -24,9 +24,11 @@ void grid_setup(Grid* grid){
     glGenBuffers(1, &grid->VBO);
     glBindVertexArray(grid->VAO);
     glBindBuffer(GL_ARRAY_BUFFER, grid->VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(segments), segments, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, bytes, segments, GL_STATIC_DRAW);
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
+
+    free(segments);
 
 }
 

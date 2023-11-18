@@ -21,10 +21,19 @@ Engine gEngine;
 
 void update_window_and_projection(GLFWwindow* window){
     mat4x4 proj;
+    //int width, height;
+    //glfwGetWindowSize(window, &width, &height);
+
+    //glViewport(0, 0, width, height);
+
     int width, height;
-    glfwGetWindowSize(window, &width, &height);
+    glfwGetFramebufferSize(gEngine.window, &width, &height);
+    glViewport(0, 0, width, height);
+
     width *= gEngine.cameraZoom;
     height *= gEngine.cameraZoom;
+
+    printf("%d ", width);
     mat4x4_ortho(proj, -width / 2.f, width / 2.f, - height/2.f, height/2.f, 2.f, -2.f);
     render_set_projection(&proj);
 }
@@ -75,6 +84,8 @@ int main() {
 
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
+    glfwWindowHint(GLFW_SAMPLES, 4);
+
     gEngine.window = glfwCreateWindow(720, 720, "C GAME", NULL, NULL);
     if (!gEngine.window) {
         glfwTerminate();
@@ -90,6 +101,10 @@ int main() {
     }
 
     glfwSetScrollCallback(gEngine.window, scroll_callback);
+
+    int w, h;
+    glfwGetFramebufferSize(gEngine.window, &w, &h);
+    glViewport(0, 0, w, h);
 
     render_init();
     engine_init();
