@@ -6,7 +6,7 @@
 #include "player.h"
 #include "enemy.h"
 
-#define MAX_ENEMIES 512
+#define MAX_ENEMIES 64
 
 typedef struct{
     Enemy enemies[MAX_ENEMIES];
@@ -26,5 +26,7 @@ void game_init();
 void game_destroy();
 
 void game_loop(double dt);
+
+void game_spawn_enemy();
 
 #endif //CGAME_GAME_H

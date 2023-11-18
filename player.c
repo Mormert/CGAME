@@ -84,16 +84,23 @@ void player_update(Player* player, double dt) {
             player->radius = newRadius;
             e->dead = 1;
         }
+        if(e->state == TooLarge && vec2_len(diff) < player->radius){
+            game_destroy();
+            game_init();
+        }
     }
 
     player->radius -= dt * 2.f;
-    if(player->radius < 25.f){
+    if(player->radius < 25.f || isnan(player->radius)){
         player->radius = 25.f;
     }
 
 }
 
 void player_init(Player *player) {
-    player->x = 25.f;
+    player->y = 0.f;
+    player->x = 0.f;
     player->radius = 25.f;
+    player->dv[0] = 0;
+    player->dv[1] = 0;
 }
