@@ -38,6 +38,8 @@ void game_init(){
     gGame.circleShader = shader_create("shaders/quad.vert", "../shaders/circle.frag");
     gGame.circleShaderPlayer = shader_create("shaders/quad.vert", "../shaders/circle_player.frag");
 
+    gGame.grid = grid_create();
+
     player_init(&gGame.player);
 
     for(int i = 0; i < MAX_ENEMIES; i++){
@@ -54,6 +56,7 @@ void game_destroy() {
     shader_destroy(gGame.quadShader);
     shader_destroy(gGame.circleShader);
     shader_destroy(gGame.circleShaderPlayer);
+    grid_destroy(gGame.grid);
 }
 
 void game_enemies_update(Enemies* enemies, double dt) {
@@ -63,6 +66,7 @@ void game_enemies_update(Enemies* enemies, double dt) {
 }
 
 void game_loop(double dt) {
+    grid_render(gGame.grid);
     player_update(&gGame.player, dt);
     game_enemies_update(&gGame.enemies, dt);
 }

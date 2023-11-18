@@ -15,7 +15,9 @@ add_executable(CGAME
         player.h
         engine.h
         enemy.c
-        enemy.h)
+        enemy.h
+        grid.c
+        grid.h)
 
 find_package(OpenGL REQUIRED)
 

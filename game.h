@@ -5,6 +5,7 @@
 #include "shader.h"
 #include "player.h"
 #include "enemy.h"
+#include "grid.h"
 
 #define MAX_ENEMIES 64
 
@@ -16,6 +17,7 @@ typedef struct  {
     Shader* quadShader;
     Shader* circleShader;
     Shader* circleShaderPlayer;
+    Grid* grid;
     Player player;
     Enemies enemies;
 } Game;

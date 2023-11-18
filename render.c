@@ -67,8 +67,7 @@ void render_quad(mat4x4* mat, Shader* shader) {
     shader_use(shader);
 
     shader_set_mat4(shader, "model", mat);
-    shader_set_mat4(shader, "projection", &renderState.proj);
-    shader_set_mat4(shader, "view", &renderState.view);
+    render_set_view_proj_from_state(shader);
 
     glBindVertexArray(quadVAO);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
@@ -81,4 +80,9 @@ void render_set_view(mat4x4 *view) {
 
 void render_set_projection(mat4x4 *projection) {
     mat4x4_dup(renderState.proj, *projection);
+}
+
+void render_set_view_proj_from_state(Shader *shader) {
+    shader_set_mat4(shader, "projection", &renderState.proj);
+    shader_set_mat4(shader, "view", &renderState.view);
 }
