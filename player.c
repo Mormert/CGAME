@@ -57,7 +57,7 @@ void player_update(Player* player, double dt) {
 
     if(vec2_len(player->dv) > 5.f){
         vec2_norm(player->dv, player->dv);
-        vec2_scale(player->dv, player->dv, 5.f);
+        vec2_scale(player->dv, player->dv, 2.5f);
     }
 
     player->x += player->dv[0];

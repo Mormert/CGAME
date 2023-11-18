@@ -3,7 +3,7 @@
 
 #include "render.h"
 
-#define GRID_SIZE 100
+#define GRID_SIZE 50
 
 void grid_setup(Grid* grid){
 
@@ -53,7 +53,7 @@ void grid_render(Grid* grid) {
 
     mat4x4 M;
     mat4x4_identity(M);
-    mat4x4_scale_aniso(M, M, 10000.f, 10000.f, 10000.f);
+    mat4x4_scale_aniso(M, M, 3000.f, 3000.f, 3000.f);
     shader_set_mat4(grid->shader, "model", &M);
 
     render_set_view_proj_from_state(grid->shader);

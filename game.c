@@ -28,6 +28,8 @@ void game_spawn_enemy() {
             e->y = rand() % 2501 - 1250;
             e->dx = rand() % 3 - 2;
             e->dy = rand() % 3 - 2;
+            e->dx *= 0.2f;
+            e->dy *= 0.2f;
             break;
         }
     }
