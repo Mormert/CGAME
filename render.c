@@ -1,7 +1,9 @@
 
 #include "render.h"
 #include "shader.h"
-#include <OpenGL/gl3.h>
+
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
 
 static GLuint quadVBO, quadVAO, quadEBO;
 static struct RenderState renderState;

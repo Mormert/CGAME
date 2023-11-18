@@ -2,14 +2,15 @@
 #ifndef CGAME_SHADER_H
 #define CGAME_SHADER_H
 
-#include <OpenGL/gl3.h>
 #include <stdio.h>
 #include <stdlib.h>
 
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
 #include <linmath.h>
 
 typedef struct {
-    GLuint id;
+    unsigned int id;
 } Shader;
 
 Shader* shader_create(const char* vertexPath, const char* fragmentPath);

@@ -5,6 +5,7 @@
 #include "game.h"
 #include "engine.h"
 
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
 void player_get_mat(Player *player, mat4x4 M) {
@@ -70,17 +71,17 @@ void player_update(Player* player, double dt) {
         vec2 pXY = {player->x, player->y};
         vec2 eXY = {e->x, e->y};
         vec2_sub(diff, pXY, eXY);
-        float areaPlayer = M_PI * player->radius * player->radius;
-        float areaEnemy = M_PI * e->radius * e->radius;
+        float areaPlayer = 3.14159265f * player->radius * player->radius;
+        float areaEnemy = 3.14159265f * e->radius * e->radius;
         if(e->state == Eatable && vec2_len(diff) < player->radius){
             float newAreaPlayer = areaPlayer + areaEnemy;
-            float newRadius = sqrtf(newAreaPlayer / M_PI);
+            float newRadius = sqrtf(newAreaPlayer / 3.14159265f);
             player->radius = newRadius;
             e->dead = 1;
         }
         if(e->state == TooSmall && vec2_len(diff) < player->radius){
             float newAreaPlayer = areaPlayer - areaEnemy;
-            float newRadius = sqrtf(newAreaPlayer / M_PI);
+            float newRadius = sqrtf(newAreaPlayer / 3.14159265f);
             player->radius = newRadius;
             e->dead = 1;
         }

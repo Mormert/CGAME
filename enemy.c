@@ -1,7 +1,8 @@
 
 #include "enemy.h"
 #include "game.h"
-#include "GLFW/glfw3.h"
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
 #include "render.h"
 
 void enemy_collisions(Enemy* enemy){
@@ -17,18 +18,18 @@ void enemy_collisions(Enemy* enemy){
         vec2 pXY = {enemy->x, enemy->y};
         vec2 eXY = {otherEnemy->x, otherEnemy->y};
         vec2_sub(diff, pXY, eXY);
-        float areaEnemy = M_PI * enemy->radius * enemy->radius;
-        float areaEnemyOther = M_PI * otherEnemy->radius * otherEnemy->radius;
+        float areaEnemy = 3.14159265f * enemy->radius * enemy->radius;
+        float areaEnemyOther = 3.14159265f * otherEnemy->radius * otherEnemy->radius;
         if(otherEnemy->state == Eatable && vec2_len(diff) < enemy->radius){
             float newAreaPlayer = areaEnemy + areaEnemyOther;
-            float newRadius = sqrtf(newAreaPlayer / M_PI);
+            float newRadius = sqrtf(newAreaPlayer / 3.14159265f);
             enemy->radius = newRadius;
             otherEnemy->dead = 1;
             game_spawn_enemy();
         }
         if(otherEnemy->state == TooSmall && vec2_len(diff) < enemy->radius){
             float newAreaPlayer = areaEnemy - areaEnemyOther;
-            float newRadius = sqrtf(newAreaPlayer / M_PI);
+            float newRadius = sqrtf(newAreaPlayer / 3.14159265f);
             enemy->radius = newRadius;
             otherEnemy->dead = 1;
             game_spawn_enemy();

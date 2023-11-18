@@ -4,9 +4,6 @@
 #include "render.h"
 #include "enemy.h"
 
-#include <linmath.h>
-#include <GLFW/glfw3.h>
-
 Game gGame;
 
 float randomNearby(float value) {
@@ -37,9 +34,9 @@ void game_spawn_enemy() {
 }
 
 void game_init(){
-    gGame.quadShader = shader_create("../shaders/quad.vert", "../shaders/quad.frag");
-    gGame.circleShader = shader_create("../shaders/quad.vert", "../shaders/circle.frag");
-    gGame.circleShaderPlayer = shader_create("../shaders/quad.vert", "../shaders/circle_player.frag");
+    gGame.quadShader = shader_create("shaders/quad.vert", "../shaders/quad.frag");
+    gGame.circleShader = shader_create("shaders/quad.vert", "../shaders/circle.frag");
+    gGame.circleShaderPlayer = shader_create("shaders/quad.vert", "../shaders/circle_player.frag");
 
     player_init(&gGame.player);
 

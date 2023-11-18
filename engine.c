@@ -6,8 +6,9 @@
 #include "render.h"
 #include "game.h"
 
-#include <GLFW/glfw3.h>
 #include <glad/glad.h>
+#include <GLFW/glfw3.h>
+
 #include <time.h>
 
 Engine gEngine;
@@ -33,6 +34,26 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 void engine_init(){
     gEngine.cameraZoom = 1.f;
 }
+
+void loop(){
+    double frameTime = glfwGetTime();
+    while (!glfwWindowShouldClose(gEngine.window)) {
+        glClear(GL_COLOR_BUFFER_BIT);
+        glClearColor(sinf(glfwGetTime()) * 0.5f, 0.2f, 0.5f, 1.0f);
+
+        update_window_and_projection(gEngine.window);
+
+        double thisFrameTime = glfwGetTime();
+        game_loop(thisFrameTime - frameTime);
+        frameTime = thisFrameTime;
+
+        glfwSwapBuffers(gEngine.window);
+
+        glfwPollEvents();
+    }
+
+}
+
 
 int main() {
 
@@ -68,21 +89,11 @@ int main() {
     engine_init();
     game_init();
 
-    double frameTime = glfwGetTime();
-    while (!glfwWindowShouldClose(gEngine.window)) {
-        glClear(GL_COLOR_BUFFER_BIT);
-        glClearColor(sinf(glfwGetTime()) * 0.5f, 0.2f, 0.5f, 1.0f);
-
-        update_window_and_projection(gEngine.window);
-
-        double thisFrameTime = glfwGetTime();
-        game_loop(thisFrameTime - frameTime);
-        frameTime = thisFrameTime;
-
-        glfwSwapBuffers(gEngine.window);
-
-        glfwPollEvents();
-    }
+#ifdef __EMSCRIPTEN__
+    emscripten_set_main_loop(loop, 0, true);
+#else
+    loop();
+#endif
 
     game_destroy();
     render_destroy();
