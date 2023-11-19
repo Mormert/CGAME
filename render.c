@@ -7,9 +7,17 @@
 #define GL_GLEXT_PROTOTYPES
 #define EGL_EGLEXT_PROTOTYPES
 #else
+
 #include <glad/glad.h>
+
 #endif
+
 #include <GLFW/glfw3.h>
+
+#define GLT_IMPLEMENTATION
+#include "gltext.h"
+
+
 
 static GLuint quadVBO, quadVAO, quadEBO;
 static struct RenderState renderState;
@@ -17,10 +25,10 @@ static struct RenderState renderState;
 void rendering_quad_initialize() {
 
     float vertices[] = {
-            -0.5f,  0.5f, 0.0f,  0.0f, 1.0f,  // Top-left
-            0.5f,  0.5f, 0.0f,  1.0f, 1.0f,  // Top-right
-            0.5f, -0.5f, 0.0f,  1.0f, 0.0f,  // Bottom-right
-            -0.5f, -0.5f, 0.0f,  0.0f, 0.0f,  // Bottom-left
+            -0.5f, 0.5f, 0.0f, 0.0f, 1.0f,  // Top-left
+            0.5f, 0.5f, 0.0f, 1.0f, 1.0f,  // Top-right
+            0.5f, -0.5f, 0.0f, 1.0f, 0.0f,  // Bottom-right
+            -0.5f, -0.5f, 0.0f, 0.0f, 0.0f,  // Bottom-left
     };
 
     unsigned int indices[] = {
@@ -40,10 +48,10 @@ void rendering_quad_initialize() {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, quadEBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *) 0);
     glEnableVertexAttribArray(0);
 
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *) (3 * sizeof(float)));
     glEnableVertexAttribArray(1);
 
     glBindVertexArray(0);
@@ -57,13 +65,17 @@ void rendering_quad_destroy() {
 
 void render_init() {
     rendering_quad_initialize();
+
+    gltInit();
 }
 
 void render_destroy() {
     rendering_quad_destroy();
+
+    gltTerminate();
 }
 
-void render_quad(mat4x4* mat, Shader* shader) {
+void render_quad(mat4x4 *mat, Shader *shader) {
     shader_use(shader);
 
     shader_set_mat4(shader, "model", mat);
@@ -85,4 +97,12 @@ void render_set_projection(mat4x4 *projection) {
 void render_set_view_proj_from_state(Shader *shader) {
     shader_set_mat4(shader, "projection", &renderState.proj);
     shader_set_mat4(shader, "view", &renderState.view);
+}
+
+void render_get_view(mat4x4 outView) {
+    mat4x4_dup(outView, renderState.view);
+}
+
+void render_get_proj(vec4 *outProj) {
+    mat4x4_dup(outProj, renderState.proj);
 }

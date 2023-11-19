@@ -14,8 +14,7 @@ add_executable(CGAME
         player.c
         player.h
         engine.h
-        enemy.c
-        enemy.h
+        blob.c
         grid.c
         grid.h)
 

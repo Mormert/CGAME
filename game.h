@@ -4,22 +4,22 @@
 
 #include "shader.h"
 #include "player.h"
-#include "enemy.h"
+#include "blob.h"
 #include "grid.h"
 
-#define MAX_ENEMIES 64
-
-typedef struct{
-    Enemy enemies[MAX_ENEMIES];
-} Enemies;
+#define MAX_BLOBS 300
+#define INITIAL_BLOBS 256
 
 typedef struct  {
     Shader* quadShader;
     Shader* circleShader;
     Shader* circleShaderPlayer;
+
     Grid* grid;
-    Player player;
-    Enemies enemies;
+
+    Blob blobs[MAX_BLOBS];
+
+    int playerBlobIndex;
 } Game;
 
 extern Game gGame;
@@ -29,6 +29,6 @@ void game_destroy();
 
 void game_loop(double dt);
 
-void game_spawn_enemy();
+int game_spawn_blob();
 
 #endif //CGAME_GAME_H
